@@ -20,9 +20,8 @@ class Node:
 
         assert ((isFile and not children) or (not isFile))
 
-    # Backwards to work with minimum heap
     def __lt__(self, other):
-        return self.size > other.size
+        return self.size < other.size
 
     
 # DFS
@@ -35,9 +34,8 @@ def getDirSizes(root, daHeap):
         for child in root.children:
             size += getDirSizes(root.children[child], daHeap)
 
-        if size < 100000:
-            root.size = size
-            heappush(daHeap, root)
+        root.size = size
+        heappush(daHeap, root)
     
     return size
 
@@ -105,4 +103,17 @@ daSum = 0
 for dir in daHeap:
     daSum += dir.size
 
-print(daSum)
+# Find largest value greater than the target free space
+spaceFree = 70000000 - daHeap[-1].size
+freeTarget = 30000000
+lastGreatest = 0
+while daHeap:
+    newGreatest = heappop(daHeap).size
+    if (spaceFree + newGreatest) >= freeTarget:
+        lastGreatest = newGreatest
+        break
+    else:
+        lastGreatest = newGreatest
+
+# print(daSum) # Part 1
+print(lastGreatest) # Part 2
