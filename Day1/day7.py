@@ -20,6 +20,7 @@ class Node:
 
         assert ((isFile and not children) or (not isFile))
 
+    # Swap around between part 1 and 2 for easier easiness
     def __lt__(self, other):
         return self.size < other.size
 
